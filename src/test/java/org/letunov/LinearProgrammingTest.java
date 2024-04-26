@@ -19,9 +19,9 @@ public class LinearProgrammingTest
                         {1, -3}};
         LinearProgramming.SimplexAlgorithmResult firstResult = LinearProgramming.getMaxBySimplexAlgorithm(c, b, A);
         assertAll(
-                () -> assertEquals(31.0d, firstResult.value()),
-                () -> assertEquals(9.0d, firstResult.u()[0]),
-                () -> assertEquals(2.0d, firstResult.u()[1])
+                () -> assertEquals(31.0d, firstResult.getValue()),
+                () -> assertEquals(9.0d, firstResult.getU()[0]),
+                () -> assertEquals(2.0d, firstResult.getU()[1])
         );
         double[] c2 = {-3, -2};
         double[] b2 = {20, 24, 3};
@@ -30,9 +30,9 @@ public class LinearProgrammingTest
                 {1, -3}};
         LinearProgramming.SimplexAlgorithmResult secondResult = LinearProgramming.getMinBySimplexAlgorithm(c2, b2, A2);
         assertAll(
-                () -> assertEquals(31.0d, firstResult.value()),
-                () -> assertEquals(9.0d, firstResult.u()[0]),
-                () -> assertEquals(2.0d, firstResult.u()[1])
+                () -> assertEquals(31.0d, firstResult.getValue()),
+                () -> assertEquals(9.0d, firstResult.getU()[0]),
+                () -> assertEquals(2.0d, firstResult.getU()[1])
         );
     }
 
@@ -49,11 +49,11 @@ public class LinearProgrammingTest
                 {-1, 3}};
         LinearProgramming.SimplexAlgorithmResult result = LinearProgramming.getMaxBySimplexAlgorithm(c, b, A);
 
-        System.out.printf("Максимальное значение функции при заданых ограничениях: %f\n", result.value());
-        System.out.printf("Оптимальное решение: P(%f, %f)\n", result.u()[0], result.u()[1]);
+        System.out.printf("Максимальное значение функции при заданых ограничениях: %f\n", result.getValue());
+        System.out.printf("Оптимальное решение: P(%f, %f)\n", result.getU()[0], result.getU()[1]);
         assertAll(
-                () -> assertEquals(1, result.u()[0]),
-                () -> assertEquals(3, result.u()[1])
+                () -> assertEquals(1, result.getU()[0]),
+                () -> assertEquals(3, result.getU()[1])
         );
     }
 
@@ -71,8 +71,8 @@ public class LinearProgrammingTest
                         {3, -1},
                         {-1, 3}};
         LinearProgramming.SimplexAlgorithmResult result = LinearProgramming.getMaxBySimplexAlgorithm(c, b, A);
-        System.out.printf("Максимальное значение функции при заданых ограничениях: %f\n", result.value());
-        System.out.printf("Оптимальное решение: P(%f, %f)\n", result.u()[0], result.u()[1]);
+        System.out.printf("Максимальное значение функции при заданых ограничениях: %f\n", result.getValue());
+        System.out.printf("Оптимальное решение: P(%f, %f)\n", result.getU()[0], result.getU()[1]);
     }
 
 }

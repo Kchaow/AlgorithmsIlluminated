@@ -6,9 +6,10 @@ public class LinearProgramming {
     private LinearProgramming() {}
 
     public static SimplexAlgorithmResult getMaxBySimplexAlgorithm(double[] c, double[] b, double[][] A) {
+        double[] criteriaCopy = Arrays.copyOf(c, c.length);
         for (int i = 0; i < c.length; i++)
-            c[i] *= -1;
-        return getMinBySimplexAlgorithm(c, b, A);
+            criteriaCopy[i] *= -1;
+        return getMinBySimplexAlgorithm(criteriaCopy, b, A);
     }
     public static SimplexAlgorithmResult getMinBySimplexAlgorithm(double[] c, double[] b, double[][] A) {
         if (A == null)
@@ -38,7 +39,6 @@ public class LinearProgramming {
         }
         for (int i = 0; i < A.length; i++)
             basisVarIndexes[i] = c.length+i;
-
         while (isBasicContainNegative(simplexTable)) {
             int indexOfMinNegativeBasic = getIndexOfMinNegativeBasic(simplexTable);
             int indexOfMinNegativeInBasic = getIndexOfMinNegativeInBasic(simplexTable[indexOfMinNegativeBasic]);
@@ -58,8 +58,7 @@ public class LinearProgramming {
             }
             basisVarIndexes[indexOfMinNegativeBasic] = indexOfMinNegativeInBasic-1;
         }
-
-        while (Arrays.stream(simplexTable[simplexTable.length - 1]).anyMatch(x -> x < 0)) {
+        while (isHasNegative(simplexTable[simplexTable.length - 1])) {
             int varToEnterColumnInd = getIndexOfMinEl(simplexTable[simplexTable.length-1]);
             int varToGetOutRowInd = -1;
             double minRelValue = Double.MAX_VALUE;
@@ -93,6 +92,12 @@ public class LinearProgramming {
         return new SimplexAlgorithmResult(simplexTable[simplexTable.length-1][0], u);
     }
 
+    private static boolean isHasNegative(double[] arr) {
+        for (int i = 1; i < arr.length; i++)
+            if (arr[i] < 0)
+                return true;
+        return false;
+    }
     private static int getIndexOfMinNegativeInBasic(double[] arr) {
         double min = Double.MAX_VALUE;
         int ind = -1;
@@ -116,8 +121,8 @@ public class LinearProgramming {
     }
 
     private static boolean isBasicContainNegative(double[][] table) {
-        for (double[] doubles : table)
-            if (doubles[0] < 0)
+        for (int i = 0; i < table.length-1; i++)
+            if (table[i][0] < 0)
                 return true;
         return false;
     }
@@ -125,7 +130,7 @@ public class LinearProgramming {
     private static int getIndexOfMinEl(double[] arr) {
         int ind = -1;
         double min = Double.MAX_VALUE;
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 1; i < arr.length; i++) {
             if (arr[i] < min) {
                 min = arr[i];
                 ind = i;
@@ -134,5 +139,24 @@ public class LinearProgramming {
         return ind;
     }
 
-    public record SimplexAlgorithmResult(double value, double[] u) { }
+    public static class SimplexAlgorithmResult {
+        private double value;
+        private double[] u;
+        public SimplexAlgorithmResult(double value, double[] u) {
+            this.value = value;
+            this.u = u;
+        }
+        public double[] getU() {
+            return u;
+        }
+        public void setU(double[] u) {
+            this.u = u;
+        }
+        public double getValue() {
+            return value;
+        }
+        public void setValue(double value) {
+            this.value = value;
+        }
+    }
 }

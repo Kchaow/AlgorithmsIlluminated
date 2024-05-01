@@ -1,7 +1,6 @@
 package org.letunov.data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Graph
 {
@@ -22,5 +21,25 @@ public class Graph
     public void setVertexList(List<Vertex> vertexList)
     {
         this.vertexList = vertexList;
+    }
+    public boolean isReachableByBFS(Vertex start, Vertex target) {
+        Map<Vertex, Boolean> isReached = new HashMap<>();
+        vertexList.forEach(x -> isReached.put(x, false));
+        isReached.put(start, true);
+        Queue<Vertex> vertexQueue = new LinkedList<>();
+        vertexQueue.add(start);
+        while (!vertexQueue.isEmpty()) {
+            Vertex vertex = vertexQueue.poll();
+            for (Edge edge : vertex.getIncidentEdges()) {
+                Vertex adjacentVertex = edge.getFirstVertex().equals(vertex) ? edge.getSecondVertex() : edge.getFirstVertex();
+                if (adjacentVertex.equals(target))
+                    return true;
+                if (!isReached.get(adjacentVertex)) {
+                    isReached.put(adjacentVertex, true);
+                    vertexQueue.add(adjacentVertex);
+                }
+            }
+        }
+        return false;
     }
 }

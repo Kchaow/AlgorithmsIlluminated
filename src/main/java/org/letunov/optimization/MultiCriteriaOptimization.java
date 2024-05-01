@@ -1,8 +1,6 @@
 package org.letunov.optimization;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MultiCriteriaOptimization {
     public static double[] getOptimalBySuccessiveConcessionMethod(double[][] criterias,
@@ -31,21 +29,21 @@ public class MultiCriteriaOptimization {
         double[] boundariesValuesCopy = Arrays.copyOf(boundariesValues, boundariesValues.length);
         for (int i = 0; i < boundaries.length; i++)
             boundariesCopy[i] = Arrays.copyOf(boundaries[i], boundaries[i].length);
-        LinearProgramming.SimplexAlgorithmResult simplexAlgorithmResult
-                = new LinearProgramming.SimplexAlgorithmResult(-1, new double[0]);
+        Optimization.OptimizationResult optimizationResult
+                = new Optimization.OptimizationResult(-1, new double[0]);
         for (int i = 0; i < criterias.length; i++) {
-            simplexAlgorithmResult =
-                    LinearProgramming.getMaxBySimplexAlgorithm(criterias[priorities[i]], boundariesValuesCopy, boundariesCopy);
+            optimizationResult =
+                    Optimization.getMaxBySimplexAlgorithm(criterias[priorities[i]], boundariesValuesCopy, boundariesCopy);
             if (i == criterias.length-1)
                 break;
             boundariesValuesCopy =
-                    addToArray(boundariesValuesCopy, -1 * (simplexAlgorithmResult.getValue() - delta[priorities[i]]));
+                    addToArray(boundariesValuesCopy, -1 * (optimizationResult.getValue() - delta[priorities[i]]));
             double[] additionalBoundaries = new double[boundariesCopy[0].length];
             for (int j = 0; j < additionalBoundaries.length; j++)
                 additionalBoundaries[j] = -1 * criterias[priorities[i]][j];
             boundariesCopy = appendRowToMatrix(boundariesCopy, additionalBoundaries);
         }
-        return simplexAlgorithmResult.getU();
+        return optimizationResult.getU();
     }
 
     private static double[] addToArray(double[] arr, double el) {

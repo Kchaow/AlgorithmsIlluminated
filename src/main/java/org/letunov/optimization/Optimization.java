@@ -2,16 +2,16 @@ package org.letunov.optimization;
 
 import java.util.Arrays;
 
-public class LinearProgramming {
-    private LinearProgramming() {}
+public class Optimization {
+    private Optimization() {}
 
-    public static SimplexAlgorithmResult getMaxBySimplexAlgorithm(double[] c, double[] b, double[][] A) {
+    public static OptimizationResult getMaxBySimplexAlgorithm(double[] c, double[] b, double[][] A) {
         double[] criteriaCopy = Arrays.copyOf(c, c.length);
         for (int i = 0; i < c.length; i++)
             criteriaCopy[i] *= -1;
         return getMinBySimplexAlgorithm(criteriaCopy, b, A);
     }
-    public static SimplexAlgorithmResult getMinBySimplexAlgorithm(double[] c, double[] b, double[][] A) {
+    public static OptimizationResult getMinBySimplexAlgorithm(double[] c, double[] b, double[][] A) {
         if (A == null)
             throw new RuntimeException("Matrix A cannot be null");
         if (A[0].length != c.length)
@@ -89,7 +89,7 @@ public class LinearProgramming {
         for (int i = 0; i < basisVarIndexes.length; i++)
             if (basisVarIndexes[i] < u.length)
                 u[basisVarIndexes[i]] = simplexTable[i][0];
-        return new SimplexAlgorithmResult(simplexTable[simplexTable.length-1][0], u);
+        return new OptimizationResult(simplexTable[simplexTable.length-1][0], u);
     }
 
     private static boolean isHasNegative(double[] arr) {
@@ -139,10 +139,10 @@ public class LinearProgramming {
         return ind;
     }
 
-    public static class SimplexAlgorithmResult {
+    public static class OptimizationResult {
         private double value;
         private double[] u;
-        public SimplexAlgorithmResult(double value, double[] u) {
+        public OptimizationResult(double value, double[] u) {
             this.value = value;
             this.u = u;
         }

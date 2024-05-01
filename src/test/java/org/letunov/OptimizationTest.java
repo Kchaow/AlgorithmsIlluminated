@@ -1,14 +1,12 @@
 package org.letunov;
 
 import org.junit.jupiter.api.Test;
-import org.letunov.optimization.LinearProgramming;
-
-import java.util.Arrays;
+import org.letunov.optimization.Optimization;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LinearProgrammingTest
+public class OptimizationTest
 {
     @Test
     public void SimplexMethodTest() {
@@ -17,7 +15,7 @@ public class LinearProgrammingTest
         double[][] A = {{-5, 4},
                         {2, 3},
                         {1, -3}};
-        LinearProgramming.SimplexAlgorithmResult firstResult = LinearProgramming.getMaxBySimplexAlgorithm(c, b, A);
+        Optimization.OptimizationResult firstResult = Optimization.getMaxBySimplexAlgorithm(c, b, A);
         assertAll(
                 () -> assertEquals(31.0d, firstResult.getValue()),
                 () -> assertEquals(9.0d, firstResult.getU()[0]),
@@ -28,7 +26,7 @@ public class LinearProgrammingTest
         double[][] A2 = {{-5, 4},
                 {2, 3},
                 {1, -3}};
-        LinearProgramming.SimplexAlgorithmResult secondResult = LinearProgramming.getMinBySimplexAlgorithm(c2, b2, A2);
+        Optimization.OptimizationResult secondResult = Optimization.getMinBySimplexAlgorithm(c2, b2, A2);
         assertAll(
                 () -> assertEquals(31.0d, firstResult.getValue()),
                 () -> assertEquals(9.0d, firstResult.getU()[0]),
@@ -47,7 +45,7 @@ public class LinearProgrammingTest
                 {0, 1},
                 {-2, -1},
                 {-1, 3}};
-        LinearProgramming.SimplexAlgorithmResult result = LinearProgramming.getMaxBySimplexAlgorithm(c, b, A);
+        Optimization.OptimizationResult result = Optimization.getMaxBySimplexAlgorithm(c, b, A);
 
         System.out.printf("Максимальное значение функции при заданых ограничениях: %f\n", result.getValue());
         System.out.printf("Оптимальное решение: P(%f, %f)\n", result.getU()[0], result.getU()[1]);
@@ -70,9 +68,18 @@ public class LinearProgrammingTest
                         {0, 1},
                         {3, -1},
                         {-1, 3}};
-        LinearProgramming.SimplexAlgorithmResult result = LinearProgramming.getMaxBySimplexAlgorithm(c, b, A);
+        Optimization.OptimizationResult result = Optimization.getMaxBySimplexAlgorithm(c, b, A);
         System.out.printf("Максимальное значение функции при заданых ограничениях: %f\n", result.getValue());
         System.out.printf("Оптимальное решение: P(%f, %f)\n", result.getU()[0], result.getU()[1]);
     }
 
+    @Test
+    public void t() {
+        double[] c = {-4, -8};
+        double[] b = {3, 2};
+        double[][] A = {{1, 1}, {1, -1}};
+        Optimization.OptimizationResult result = Optimization.getMinBySimplexAlgorithm(c, b, A);
+        System.out.printf("Максимальное значение функции при заданых ограничениях: %f\n", result.getValue());
+        System.out.printf("Оптимальное решение: P(%f, %f)\n", result.getU()[0], result.getU()[1]);
+    }
 }

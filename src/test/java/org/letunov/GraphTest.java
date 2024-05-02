@@ -156,4 +156,16 @@ public class GraphTest {
                 () -> assertEquals(0, graph.getShortestWayWithOneUnitEdgesByBFS(c, c))
         );
     }
+
+    @Test
+    public void ucc() {
+        assertAll(
+                () -> assertEquals(3, graph.ucc().size()),
+                () -> assertEquals(6, graph.ucc().get(0).size()),
+                () -> assertEquals(6, graph.ucc().get(0).size()),
+                () -> assertEquals(4, graph.ucc().get(1).size()),
+                () -> assertEquals(2, graph.ucc().get(2).size()),
+                () -> assertEquals(1, graph.ucc().get(3).size())
+        );
+    }
 }

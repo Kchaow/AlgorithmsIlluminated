@@ -42,7 +42,6 @@ public class Graph
         }
         return false;
     }
-
     public int getShortestWayWithOneUnitEdgesByBFS(Vertex start, Vertex target) {
         if (start.equals(target))
             return 0;
@@ -66,5 +65,29 @@ public class Graph
             }
         }
         return -1;
+    }
+    public List<List<Vertex>> ucc() {
+        List<List<Vertex>> cc = new ArrayList<>();
+        Map<Vertex, Boolean> isReached = new HashMap<>();
+        vertexList.forEach(x -> isReached.put(x, false));
+        for (Vertex vertex : vertexList) {
+            if (!isReached.get(vertex)) {
+                cc.add(new ArrayList<>());
+                Queue<Vertex> vertexQueue = new LinkedList<>();
+                vertexQueue.add(vertex);
+                while (!vertexQueue.isEmpty()) {
+                    Vertex currentVertex = vertexQueue.poll();
+                    cc.get(cc.size()-1).add(currentVertex);
+                    for (Edge edge : vertex.getIncidentEdges()) {
+                        Vertex adjacentVertex = edge.getFirstVertex().equals(vertex) ? edge.getSecondVertex() : edge.getFirstVertex();
+                        if (!isReached.get(adjacentVertex)) {
+                            isReached.put(adjacentVertex, true);
+                            vertexQueue.add(adjacentVertex);
+                        }
+                    }
+                }
+            }
+        }
+        return cc;
     }
 }

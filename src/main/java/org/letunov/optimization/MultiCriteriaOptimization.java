@@ -31,7 +31,7 @@ public class MultiCriteriaOptimization {
             boundariesCopy[i] = Arrays.copyOf(boundaries[i], boundaries[i].length);
         Optimization.OptimizationResult optimizationResult
                 = new Optimization.OptimizationResult(-1, new double[0]);
-        for (int i = 0; i < criterias.length; i++) {
+        for (int i = 0, deltaInd = 0; i < criterias.length; i++, deltaInd++) {
             optimizationResult =
                     Optimization.getMaxBySimplexAlgorithm(criterias[priorities[i]], boundariesValuesCopy, boundariesCopy);
             if (i == criterias.length-1)

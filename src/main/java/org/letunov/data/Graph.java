@@ -42,4 +42,29 @@ public class Graph
         }
         return false;
     }
+
+    public int getShortestWayWithOneUnitEdgesByBFS(Vertex start, Vertex target) {
+        if (start.equals(target))
+            return 0;
+        int l = 0;
+        Map<Vertex, Boolean> isReached = new HashMap<>();
+        vertexList.forEach(x -> isReached.put(x, false));
+        isReached.put(start, true);
+        Queue<Vertex> vertexQueue = new LinkedList<>();
+        vertexQueue.add(start);
+        while (!vertexQueue.isEmpty()) {
+            l++;
+            Vertex vertex = vertexQueue.poll();
+            for (Edge edge : vertex.getIncidentEdges()) {
+                Vertex adjacentVertex = edge.getFirstVertex().equals(vertex) ? edge.getSecondVertex() : edge.getFirstVertex();
+                if (adjacentVertex.equals(target))
+                    return l;
+                if (!isReached.get(adjacentVertex)) {
+                    isReached.put(adjacentVertex, true);
+                    vertexQueue.add(adjacentVertex);
+                }
+            }
+        }
+        return -1;
+    }
 }

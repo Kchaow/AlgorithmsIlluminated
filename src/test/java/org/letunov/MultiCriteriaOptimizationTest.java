@@ -28,4 +28,23 @@ public class MultiCriteriaOptimizationTest {
                 () -> assertTrue(Math.abs(pareto[1] - 3d) < EPSILON)
         );
     }
+
+    @Test
+    void getOptimalBySuccessiveConcessionMethodTest2() {
+        int[] priorities = {0, 1, 2};
+        double[] delta = {2, 1};
+        double[][] criterias = {{1, 1},
+                {-3, 1},
+                {1, -3}};
+        double[] boundariesValues = {40, -10, 20, 15, 0, 0};
+        double[][] boundaries = {{1, 2},
+                {-2, -1},
+                {1, 0},
+                {0, 1},
+                {-1, 0},
+                {0, -1}};
+        double[] pareto = MultiCriteriaOptimization.getOptimalBySuccessiveConcessionMethod(criterias,
+                priorities, boundaries, boundariesValues, delta);
+        System.out.printf("Точка Парето: (%f, %f)%n", pareto[0], pareto[1]);
+    }
 }

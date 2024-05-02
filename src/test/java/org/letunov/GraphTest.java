@@ -139,7 +139,21 @@ public class GraphTest {
 
         assertAll(
                 () -> assertTrue(graph.isReachableByBFS(c, f)),
-                () -> assertFalse(graph.isReachableByBFS(c, x))
+                () -> assertFalse(graph.isReachableByBFS(c, x)),
+                () -> assertTrue(graph.isReachableByBFS(c, c))
+        );
+    }
+
+    @Test
+    public void getShortestWayWithOneUnitEdgesByBFS() {
+        Vertex x = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("x")).findFirst().get();
+        Vertex c = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("c")).findFirst().get();
+        Vertex f = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("f")).findFirst().get();
+
+        assertAll(
+                () -> assertEquals(2, graph.getShortestWayWithOneUnitEdgesByBFS(c, f)),
+                () -> assertEquals(-1, graph.getShortestWayWithOneUnitEdgesByBFS(c, x)),
+                () -> assertEquals(0, graph.getShortestWayWithOneUnitEdgesByBFS(c, c))
         );
     }
 }

@@ -42,6 +42,45 @@ public class Graph
         }
         return false;
     }
+    public boolean isReachableByIterativeDFS(Vertex start, Vertex target) {
+        Map<Vertex, Boolean> isReached = new HashMap<>();
+        vertexList.forEach(x -> isReached.put(x, false));
+        Deque<Vertex> stack = new LinkedList<>();
+        stack.add(start);
+        while (!stack.isEmpty()) {
+            Vertex v = stack.pop();
+            if (!isReached.get(v)) {
+                isReached.put(v, true);
+                for (Edge edge : v.getIncidentEdges()) {
+                    if (edge.getFirstVertex().equals(target) || edge.getSecondVertex().equals(target))
+                        return true;
+                    if (!isReached.get(edge.getFirstVertex()))
+                        stack.push(edge.getFirstVertex());
+                    else if (!isReached.get(edge.getSecondVertex()))
+                        stack.push(edge.getSecondVertex());
+                }
+            }
+        }
+        return false;
+    }
+    public boolean isReachableByRecursiveDFS(Vertex start, Vertex target) {
+        Map<Vertex, Boolean> isReached = new HashMap<>();
+        vertexList.forEach(x -> isReached.put(x, false));
+        return dfs(isReached, start, target);
+    }
+    private boolean dfs(Map<Vertex, Boolean> isReached, Vertex current, Vertex target) {
+        isReached.put(current, true);
+        boolean isFound = false;
+        for (Edge edge : current.getIncidentEdges()) {
+            if (edge.getFirstVertex().equals(target) || edge.getSecondVertex().equals(target))
+                return true;
+            if (!isReached.get(edge.getFirstVertex()))
+                isFound = dfs(isReached, edge.getFirstVertex(), target) || isFound;
+            else if (!isReached.get(edge.getSecondVertex()))
+                isFound = dfs(isReached, edge.getSecondVertex(), target) || isFound;
+        }
+        return isFound;
+    }
     public int getShortestWayWithOneUnitEdgesByBFS(Vertex start, Vertex target) {
         if (start.equals(target))
             return 0;

@@ -145,6 +145,32 @@ public class GraphTest {
     }
 
     @Test
+    public void isReachableByIterativeDFSTest() {
+        Vertex x = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("x")).findFirst().get();
+        Vertex c = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("c")).findFirst().get();
+        Vertex f = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("f")).findFirst().get();
+
+        assertAll(
+                () -> assertTrue(graph.isReachableByIterativeDFS(c, f)),
+                () -> assertFalse(graph.isReachableByIterativeDFS(c, x)),
+                () -> assertTrue(graph.isReachableByIterativeDFS(c, c))
+        );
+    }
+
+    @Test
+    public void isReachableByRecursiveDFSTest() {
+        Vertex x = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("x")).findFirst().get();
+        Vertex c = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("c")).findFirst().get();
+        Vertex f = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("f")).findFirst().get();
+
+        assertAll(
+                () -> assertTrue(graph.isReachableByRecursiveDFS(c, f)),
+                () -> assertFalse(graph.isReachableByRecursiveDFS(c, x)),
+                () -> assertTrue(graph.isReachableByRecursiveDFS(c, c))
+        );
+    }
+
+    @Test
     public void getShortestWayWithOneUnitEdgesByBFS() {
         Vertex x = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("x")).findFirst().get();
         Vertex c = graph.getVertexList().stream().filter(vertex -> vertex.getName().equals("c")).findFirst().get();
